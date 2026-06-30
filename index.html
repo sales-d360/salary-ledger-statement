@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Ledger Statement - Stavan Purveshbhai Shah</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Control Panel (Hidden in print) -->
+        <div class="control-panel">
+            <div class="filter-group">
+                <div class="input-field">
+                    <label for="search-input">Search Ref / Account</label>
+                    <input type="text" id="search-input" placeholder="e.g. 566880405, ICICI...">
+                </div>
+                <div class="input-field">
+                    <label for="filter-vtype">Voucher Type</label>
+                    <select id="filter-vtype">
+                        <option value="">All Vouchers</option>
+                        <option value="BPmt">BPmt (Bank Payment)</option>
+                        <option value="Jrnl">Jrnl (Journal)</option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <label for="filter-start-date">Start Date</label>
+                    <input type="date" id="filter-start-date">
+                </div>
+                <div class="input-field">
+                    <label for="filter-end-date">End Date</label>
+                    <input type="date" id="filter-end-date">
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button id="reset-btn" class="btn btn-secondary">Reset Filters</button>
+                <button id="print-btn" class="btn btn-primary">Print Statement / Save PDF</button>
+            </div>
+        </div>
+
+        <!-- Ledger Sheet (Printable A4 section) -->
+        <div class="ledger-sheet" id="printable-ledger">
+            <!-- Header & Company Info -->
+            <div class="ledger-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="D360 BUSINESS ASSIST logo">
+                </div>
+                <div class="company-info">
+                    <div class="company-name">D360 BUSINESS ASSIST PVT. LTD.</div>
+                    <div class="company-details">
+                        <p>Plot No. 18, Sy No. 310, Patel Falia, Nr. Katargam Fire Station, Katargam, Surat, Gujarat, 395004</p>
+                        <p>GSTIN: <span class="gstin">24AAJCD9037G1ZL</span></p>
+                        <p>Contact: +91 8799 600 360 | Email: info@d360.tech</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heavy accent border -->
+            <div class="header-separator"></div>
+
+            <!-- Title Section -->
+            <div class="document-title-section">
+                <div>
+                    <h1 class="document-title">Salary Ledger Statement</h1>
+                </div>
+                <div class="document-meta">
+                    <p>Financial Year: <span>2025-26</span></p>
+                </div>
+            </div>
+
+            <!-- Employee Profile Block -->
+            <div class="employee-profile">
+                <div class="profile-card">
+                    <span class="profile-label">Employee Name</span>
+                    <span class="profile-value emp-name">Stavan Purveshbhai Shah</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Designation</span>
+                    <span class="profile-value">Software Engineer</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Bank Name</span>
+                    <span class="profile-value">IDBI Bank</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Account Name</span>
+                    <span class="profile-value">Shah Stavan Purveshbhai</span>
+                </div>
+                <div class="profile-card" style="grid-column: span 2;">
+                    <span class="profile-label">Account No.</span>
+                    <span class="profile-value" style="font-family: monospace; font-size: 0.95rem; font-weight: 600;">220104000205252</span>
+                </div>
+            </div>
+
+            <!-- Transaction Register Grid Table -->
+            <div class="ledger-table-container">
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th class="col-date">Date</th>
+                            <th class="col-vtype">Voucher Type</th>
+                            <th class="col-ref">Ref No / Description</th>
+                            <th class="col-head">Account Head / Mode</th>
+                            <th class="col-amount">Amount (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ledger-body">
+                        <!-- Dynamic transaction rows will be rendered here by script.js -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4" class="total-label">Grand Total</td>
+                            <td id="total-amount" class="total-amount col-amount-val">
+                                <!-- Computed dynamic total will be rendered here -->
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Signature block -->
+            <div class="signature-section">
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <div class="signature-title">Employee Signature</div>
+                    <div class="signature-subtitle">Stavan Purveshbhai Shah</div>
+                </div>
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <div class="signature-title">Authorized Signatory</div>
+                    <div class="signature-subtitle">D360 BUSINESS ASSIST PVT. LTD.</div>
+                </div>
+            </div>
+
+            <!-- Statement footer -->
+            <div class="ledger-footer">
+                <div>Generated on: <span id="print-date"></span></div>
+                <div>Page 1 of 1</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
