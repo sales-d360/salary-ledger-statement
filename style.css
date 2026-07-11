@@ -681,7 +681,6 @@ tfoot {
 
 /* Screen hidden print elements */
 .print-page-footer,
-.print-page-break,
 .ledger-header-continuation,
 .print-header-separator,
 .print-thead-show {
@@ -786,12 +785,8 @@ tfoot {
         color: #555 !important;
         margin-top: 2rem !important;
         width: 100% !important;
-    }
-
-    .print-page-break {
-        display: block !important;
-        page-break-before: always !important;
-        break-before: page !important;
+        page-break-after: always !important;
+        break-after: page !important;
     }
 
     .ledger-header-continuation {

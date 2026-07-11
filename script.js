@@ -462,9 +462,6 @@ function renderLedger(data) {
                 <div>Page 1 of 2</div>
             </div>
 
-            <!-- Forced print page break -->
-            <div class="print-page-break"></div>
-
             <!-- Table 2 Header Continuation (Print-only) -->
             <div class="ledger-header-continuation">
                 <div style="font-weight:700; color:var(--primary-color); font-size: 1rem; text-transform: uppercase;">Salary Ledger - ${emp.name} (Continued)</div>
