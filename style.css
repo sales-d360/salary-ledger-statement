@@ -291,11 +291,12 @@ body {
 }
 
 /* Column Alignments */
-.col-date { width: 12%; }
+.col-date { width: 10%; }
+.col-month { width: 15%; }
 .col-vtype { width: 12%; }
-.col-ref { width: 20%; }
-.col-head { width: 38%; }
-.col-amount { width: 18%; text-align: right; }
+.col-ref { width: 18%; }
+.col-head { width: 23%; }
+.col-amount { width: 12%; text-align: right; }
 
 .col-amount-val {
     text-align: right;
@@ -389,7 +390,7 @@ tfoot {
 /* Action column styling */
 .col-action {
     text-align: center;
-    width: 12%;
+    width: 10%;
 }
 
 .btn-sm {

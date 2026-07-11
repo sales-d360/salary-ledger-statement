@@ -1,17 +1,17 @@
 // Chronological transaction register data (FY 2025-26)
 const transactions = [
-    { date: "05/05/2025", vtype: "BPmt", ref: "566880405", head: "ICICI Bank A/c", amount: 25000.00 },
-    { date: "05/06/2025", vtype: "BPmt", ref: "566880416", head: "ICICI Bank A/c", amount: 25000.00 },
-    { date: "05/07/2025", vtype: "BPmt", ref: "566880430", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "05/08/2025", vtype: "BPmt", ref: "566880442", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "03/09/2025", vtype: "BPmt", ref: "9", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "06/10/2025", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "05/11/2025", vtype: "BPmt", ref: "29", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "06/12/2025", vtype: "BPmt", ref: "36", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "04/01/2026", vtype: "BPmt", ref: "42", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "03/02/2026", vtype: "BPmt", ref: "5", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "07/03/2026", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "31/03/2026", vtype: "Jrnl", ref: "Provision", head: "Payable Salary", amount: 40000.00 }
+    { date: "05/05/2025", salaryMonth: "April 2025", vtype: "BPmt", ref: "566880405", head: "ICICI Bank A/c", amount: 25000.00 },
+    { date: "05/06/2025", salaryMonth: "May 2025", vtype: "BPmt", ref: "566880416", head: "ICICI Bank A/c", amount: 25000.00 },
+    { date: "05/07/2025", salaryMonth: "June 2025", vtype: "BPmt", ref: "566880430", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "05/08/2025", salaryMonth: "July 2025", vtype: "BPmt", ref: "566880442", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "03/09/2025", salaryMonth: "August 2025", vtype: "BPmt", ref: "9", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "06/10/2025", salaryMonth: "September 2025", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "05/11/2025", salaryMonth: "October 2025", vtype: "BPmt", ref: "29", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "06/12/2025", salaryMonth: "November 2025", vtype: "BPmt", ref: "36", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "04/01/2026", salaryMonth: "December 2025", vtype: "BPmt", ref: "42", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "03/02/2026", salaryMonth: "January 2026", vtype: "BPmt", ref: "5", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "07/03/2026", salaryMonth: "February 2026", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
+    { date: "31/03/2026", salaryMonth: "March 2026", vtype: "Jrnl", ref: "Provision", head: "Payable Salary", amount: 40000.00 }
 ];
 
 // Elements
@@ -129,12 +129,13 @@ function renderLedger(data) {
         
         row.innerHTML = `
             <td class="col-date">${tx.date}</td>
+            <td class="col-month">${tx.salaryMonth}</td>
             <td class="col-vtype">${tx.vtype}</td>
             <td class="col-ref">${tx.ref}</td>
             <td class="col-head">${tx.head}</td>
             <td class="col-amount col-amount-val">${formatCurrency(tx.amount)}</td>
             <td class="col-action">
-                <button class="btn-sm" onclick="viewPayslip('${tx.date}', ${tx.amount})">View Slip</button>
+                <button class="btn-sm" onclick="viewPayslip('${tx.date}', ${tx.amount}, '${tx.salaryMonth}')">View Slip</button>
             </td>
         `;
         
@@ -192,17 +193,11 @@ function numberToWords(num) {
 }
 
 // Controller: View Payslip in Modal
-window.viewPayslip = function(dateStr, amount) {
+window.viewPayslip = function(dateStr, amount, salaryMonth) {
     const modal = document.getElementById("payslip-modal");
     
-    // Parse Date to Month Name + Year
-    const parts = dateStr.split("/");
-    const monthIndex = parseInt(parts[1], 10) - 1;
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const monthYear = `${months[monthIndex]} ${parts[2]}`;
-    
     // Fill dynamic values
-    document.getElementById("payslip-date-val").textContent = monthYear;
+    document.getElementById("payslip-date-val").textContent = salaryMonth;
     document.getElementById("payslip-basic-val").textContent = formatCurrency(amount);
     document.getElementById("payslip-total-earn-val").textContent = formatCurrency(amount);
     document.getElementById("payslip-net-val").textContent = `₹ ${formatCurrency(amount)}`;
