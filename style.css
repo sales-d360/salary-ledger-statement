@@ -270,7 +270,7 @@ body {
     font-family: var(--font-heading);
     font-weight: 600;
     text-align: left;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.75rem;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -278,7 +278,7 @@ body {
 }
 
 .ledger-table td {
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.75rem;
     border: 1px solid var(--border-color);
     color: var(--text-color);
 }
@@ -292,10 +292,10 @@ body {
 }
 
 /* Column Alignments */
-.col-date { width: 10%; }
+.col-date { width: 13%; }
 .col-month { width: 15%; }
-.col-ref { width: 20%; }
-.col-head { width: 33%; }
+.col-ref { width: 18%; }
+.col-head { width: 32%; }
 .col-amount { width: 12%; text-align: right; }
 .col-action { width: 10%; text-align: center; }
 
