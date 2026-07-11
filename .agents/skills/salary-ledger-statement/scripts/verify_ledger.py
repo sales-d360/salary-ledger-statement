@@ -46,19 +46,24 @@ print("\n--- Verifying JavaScript Data and Calculations ---")
 with open(os.path.join(project_dir, "script.js"), "r", encoding="utf-8") as js_file:
     js_content = js_file.read()
 
-# Extract transactions array contents
-matches = re.findall(r"amount:\s*([0-9.]+)", js_content)
-if matches:
-    amounts = [float(a) for a in matches]
-    total_sum = sum(amounts)
-    print(f"Transactions found: {len(amounts)}")
-    print(f"Computed Sum of Transactions: Rs. {total_sum:,.2f}")
-    if total_sum == 450000.0:
-        print("OK: Sum matches Rs. 450,000.00 exactly!")
-    else:
-        print(f"ERROR: Sum is {total_sum}, expected 450000.0")
+# Extract transactions for stavan
+stavan_matches = re.findall(r'employeeId:\s*"stavan".*?amount:\s*([0-9.]+)', js_content)
+stavan_amounts = [float(a) for a in stavan_matches]
+stavan_sum = sum(stavan_amounts)
+print(f"Stavan's transactions found: {len(stavan_amounts)}")
+print(f"Stavan's Computed Sum: Rs. {stavan_sum:,.2f}")
+
+# Extract transactions for dhruvil
+dhruvil_matches = re.findall(r'employeeId:\s*"dhruvil".*?amount:\s*([0-9.]+)', js_content)
+dhruvil_amounts = [float(a) for a in dhruvil_matches]
+dhruvil_sum = sum(dhruvil_amounts)
+print(f"Dhruvil's transactions found: {len(dhruvil_amounts)}")
+print(f"Dhruvil's Computed Sum: Rs. {dhruvil_sum:,.2f}")
+
+if stavan_sum == 450000.0 and dhruvil_sum == 108000.0:
+    print("OK: Stavan's sum matches Rs. 450,000.00 and Dhruvil's sum matches Rs. 108,000.00 exactly!")
 else:
-    print("ERROR: No transactions found in script.js!")
+    print(f"ERROR: Incorrect sums. Stavan: {stavan_sum} (expected 450000.0), Dhruvil: {dhruvil_sum} (expected 108000.0)")
 
 print("\n--- Verifying CSS Accounting Rules ---")
 with open(os.path.join(project_dir, "style.css"), "r", encoding="utf-8") as css_file:

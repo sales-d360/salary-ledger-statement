@@ -1,22 +1,49 @@
+// Employee database profile details
+const employees = {
+    stavan: {
+        name: "Stavan Purveshbhai Shah",
+        designation: "Software Engineer",
+        bankName: "IDBI Bank",
+        accountName: "Shah Stavan Purveshbhai",
+        accountNo: "220104000205252",
+        pfNo: "N.A."
+    },
+    dhruvil: {
+        name: "Dhruvil Tarun Shah",
+        designation: "Software Engineer",
+        bankName: "The Kalupur commercial co-op Bank Lt",
+        accountName: "Dhruvil Tarun Shah",
+        accountNo: "1210129950",
+        pfNo: "N.A."
+    }
+};
+
 // Chronological transaction register data (FY 2025-26)
 const transactions = [
-    { date: "05/05/2025", salaryMonth: "April 2025", vtype: "BPmt", ref: "566880405", head: "ICICI Bank A/c", amount: 25000.00 },
-    { date: "05/06/2025", salaryMonth: "May 2025", vtype: "BPmt", ref: "566880416", head: "ICICI Bank A/c", amount: 25000.00 },
-    { date: "05/07/2025", salaryMonth: "June 2025", vtype: "BPmt", ref: "566880430", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "05/08/2025", salaryMonth: "July 2025", vtype: "BPmt", ref: "566880442", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "03/09/2025", salaryMonth: "August 2025", vtype: "BPmt", ref: "9", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "06/10/2025", salaryMonth: "September 2025", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "05/11/2025", salaryMonth: "October 2025", vtype: "BPmt", ref: "29", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "06/12/2025", salaryMonth: "November 2025", vtype: "BPmt", ref: "36", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "04/01/2026", salaryMonth: "December 2025", vtype: "BPmt", ref: "42", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "03/02/2026", salaryMonth: "January 2026", vtype: "BPmt", ref: "5", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "07/03/2026", salaryMonth: "February 2026", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
-    { date: "31/03/2026", salaryMonth: "March 2026", vtype: "Jrnl", ref: "Provision", head: "Payable Salary", amount: 40000.00 }
+    // Stavan Purveshbhai Shah transactions
+    { employeeId: "stavan", date: "05/05/2025", salaryMonth: "April 2025", vtype: "BPmt", ref: "566880405", head: "ICICI Bank A/c", amount: 25000.00 },
+    { employeeId: "stavan", date: "05/06/2025", salaryMonth: "May 2025", vtype: "BPmt", ref: "566880416", head: "ICICI Bank A/c", amount: 25000.00 },
+    { employeeId: "stavan", date: "05/07/2025", salaryMonth: "June 2025", vtype: "BPmt", ref: "566880430", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "05/08/2025", salaryMonth: "July 2025", vtype: "BPmt", ref: "566880442", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "03/09/2025", salaryMonth: "August 2025", vtype: "BPmt", ref: "9", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "06/10/2025", salaryMonth: "September 2025", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "05/11/2025", salaryMonth: "October 2025", vtype: "BPmt", ref: "29", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "06/12/2025", salaryMonth: "November 2025", vtype: "BPmt", ref: "36", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "04/01/2026", salaryMonth: "December 2025", vtype: "BPmt", ref: "42", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "03/02/2026", salaryMonth: "January 2026", vtype: "BPmt", ref: "5", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "07/03/2026", salaryMonth: "February 2026", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
+    { employeeId: "stavan", date: "31/03/2026", salaryMonth: "March 2026", vtype: "Jrnl", ref: "Provision", head: "Payable Salary", amount: 40000.00 },
+
+    // Mock entries for Dhruvil Tarun Shah (to demonstrate multi-employee selector works)
+    { employeeId: "dhruvil", date: "05/05/2025", salaryMonth: "April 2025", vtype: "BPmt", ref: "1001", head: "HDFC Bank A/c", amount: 35000.00 },
+    { employeeId: "dhruvil", date: "05/06/2025", salaryMonth: "May 2025", vtype: "BPmt", ref: "1002", head: "HDFC Bank A/c", amount: 35000.00 },
+    { employeeId: "dhruvil", date: "05/07/2025", salaryMonth: "June 2025", vtype: "BPmt", ref: "1003", head: "HDFC Bank A/c", amount: 38000.00 }
 ];
 
 // Elements
 const tableBody = document.getElementById("ledger-body");
 const totalAmountElement = document.getElementById("total-amount");
+const employeeFilter = document.getElementById("filter-employee");
 const vtypeFilter = document.getElementById("filter-vtype");
 const searchInput = document.getElementById("search-input");
 const startDateInput = document.getElementById("filter-start-date");
@@ -37,7 +64,6 @@ function formatCurrency(value) {
 function parseDate(dateStr) {
     const parts = dateStr.split("/");
     if (parts.length === 3) {
-        // parts[2] = Year, parts[1] = Month (0-indexed), parts[0] = Day
         return new Date(parts[2], parts[1] - 1, parts[0]);
     }
     return new Date(dateStr);
@@ -82,7 +108,6 @@ function updateLedgerPeriod(data) {
     const maxDate = new Date(Math.max(...dates));
 
     // Calculate Indian Financial Year for min/max dates
-    // Indian FY starts on April 1st (month index 3)
     const getFyStartYear = (d) => {
         return d.getMonth() >= 3 ? d.getFullYear() : d.getFullYear() - 1;
     };
@@ -91,11 +116,9 @@ function updateLedgerPeriod(data) {
     const maxFyStart = getFyStartYear(maxDate);
 
     if (minFyStart === maxFyStart) {
-        // Single financial year represented
         const nextYearShort = (minFyStart + 1) % 100;
         periodLabel.innerHTML = `Financial Year: <span>${minFyStart}-${nextYearShort}</span>`;
     } else {
-        // Spans multiple financial years
         const formatDate = (d) => {
             const day = String(d.getDate()).padStart(2, '0');
             const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -194,8 +217,18 @@ function numberToWords(num) {
 // Controller: View Payslip in Modal
 window.viewPayslip = function(dateStr, amount, salaryMonth) {
     const modal = document.getElementById("payslip-modal");
+    const empId = employeeFilter.value;
+    const emp = employees[empId];
     
-    // Fill dynamic values
+    // Fill dynamic employee values in payslip
+    document.getElementById("payslip-emp-name-val").textContent = `: ${emp.name}`;
+    document.getElementById("payslip-emp-designation-val").textContent = `: ${emp.designation}`;
+    document.getElementById("payslip-emp-pf-val").textContent = `: ${emp.pfNo}`;
+    document.getElementById("payslip-bank-val").textContent = emp.bankName;
+    document.getElementById("payslip-acc-name-val").textContent = emp.accountName;
+    document.getElementById("payslip-acc-no-val").textContent = emp.accountNo;
+
+    // Fill dynamic financial values
     document.getElementById("payslip-date-val").textContent = salaryMonth;
     document.getElementById("payslip-basic-val").textContent = formatCurrency(amount);
     document.getElementById("payslip-total-earn-val").textContent = formatCurrency(amount);
@@ -219,14 +252,32 @@ window.printPayslip = function() {
     window.print();
 };
 
+// Update employee details in HTML profile block and signature
+function updateEmployeeProfile(empId) {
+    const emp = employees[empId];
+    if (!emp) return;
+    document.getElementById("emp-name").textContent = emp.name;
+    document.getElementById("emp-designation").textContent = emp.designation;
+    document.getElementById("emp-bank").textContent = emp.bankName;
+    document.getElementById("emp-acc-name").textContent = emp.accountName;
+    document.getElementById("emp-acc-no").textContent = emp.accountNo;
+    document.getElementById("sig-emp-name").textContent = emp.name;
+}
+
 // Filter logic
 function applyFilters() {
+    const selectedEmp = employeeFilter.value;
     const vtypeValue = vtypeFilter.value.toLowerCase();
     const searchValue = searchInput.value.toLowerCase().trim();
     const startDateVal = startDateInput.value ? new Date(startDateInput.value) : null;
     const endDateVal = endDateInput.value ? new Date(endDateInput.value) : null;
 
     const filtered = transactions.filter(tx => {
+        // Filter by Employee ID first
+        if (tx.employeeId !== selectedEmp) {
+            return false;
+        }
+
         // Voucher Type filter
         if (vtypeValue && tx.vtype.toLowerCase() !== vtypeValue) {
             return false;
@@ -248,7 +299,6 @@ function applyFilters() {
                 return false;
             }
             if (endDateVal && txDate > endDateVal) {
-                // Set hours to 23:59:59 to include the end date fully
                 endDateVal.setHours(23, 59, 59, 999);
                 if (txDate > endDateVal) {
                     return false;
@@ -268,10 +318,14 @@ function resetFilters() {
     searchInput.value = "";
     startDateInput.value = "";
     endDateInput.value = "";
-    renderLedger(transactions);
+    applyFilters();
 }
 
 // Event Listeners
+employeeFilter.addEventListener("change", () => {
+    updateEmployeeProfile(employeeFilter.value);
+    applyFilters();
+});
 vtypeFilter.addEventListener("change", applyFilters);
 searchInput.addEventListener("input", applyFilters);
 startDateInput.addEventListener("change", applyFilters);
@@ -290,7 +344,8 @@ function init() {
     printDateElement.textContent = now.toLocaleDateString('en-US', options);
 
     // Initial render
-    renderLedger(transactions);
+    updateEmployeeProfile(employeeFilter.value);
+    applyFilters();
 }
 
 // Start application

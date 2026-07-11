@@ -12,6 +12,13 @@
         <div class="control-panel">
             <div class="filter-group">
                 <div class="input-field">
+                    <label for="filter-employee">Select Employee</label>
+                    <select id="filter-employee">
+                        <option value="stavan">Stavan Purveshbhai Shah</option>
+                        <option value="dhruvil">Dhruvil Tarun Shah</option>
+                    </select>
+                </div>
+                <div class="input-field">
                     <label for="search-input">Search Ref / Account</label>
                     <input type="text" id="search-input" placeholder="e.g. 566880405, ICICI...">
                 </div>
@@ -72,23 +79,23 @@
             <div class="employee-profile">
                 <div class="profile-card">
                     <span class="profile-label">Employee Name</span>
-                    <span class="profile-value emp-name">Stavan Purveshbhai Shah</span>
+                    <span id="emp-name" class="profile-value emp-name">Stavan Purveshbhai Shah</span>
                 </div>
                 <div class="profile-card">
                     <span class="profile-label">Designation</span>
-                    <span class="profile-value">Software Engineer</span>
+                    <span id="emp-designation" class="profile-value">Software Engineer</span>
                 </div>
                 <div class="profile-card">
                     <span class="profile-label">Bank Name</span>
-                    <span class="profile-value">IDBI Bank</span>
+                    <span id="emp-bank" class="profile-value">IDBI Bank</span>
                 </div>
                 <div class="profile-card">
                     <span class="profile-label">Account Name</span>
-                    <span class="profile-value">Shah Stavan Purveshbhai</span>
+                    <span id="emp-acc-name" class="profile-value">Shah Stavan Purveshbhai</span>
                 </div>
                 <div class="profile-card" style="grid-column: span 2;">
                     <span class="profile-label">Account No.</span>
-                    <span class="profile-value" style="font-family: monospace; font-size: 0.95rem; font-weight: 600;">220104000205252</span>
+                    <span id="emp-acc-no" class="profile-value" style="font-family: monospace; font-size: 0.95rem; font-weight: 600;">220104000205252</span>
                 </div>
             </div>
 
@@ -125,7 +132,7 @@
                 <div class="signature-block">
                     <div class="signature-line"></div>
                     <div class="signature-title">Employee Signature</div>
-                    <div class="signature-subtitle">Stavan Purveshbhai Shah</div>
+                    <div id="sig-emp-name" class="signature-subtitle">Stavan Purveshbhai Shah</div>
                 </div>
                 <div class="signature-block">
                     <div class="signature-line"></div>
@@ -180,15 +187,15 @@
                 <div class="info-grid">
                     <div class="info-row">
                         <span class="info-label">Employee Name</span>
-                        <span class="info-value">: Stavan Purveshbhai Shah</span>
+                        <span class="info-value" id="payslip-emp-name-val">: Stavan Purveshbhai Shah</span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Designation</span>
-                        <span class="info-value">: Software Engineer</span>
+                        <span class="info-value" id="payslip-emp-designation-val">: Software Engineer</span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">PF A/c No</span>
-                        <span class="info-value">: N.A.</span>
+                        <span class="info-value" id="payslip-emp-pf-val">: N.A.</span>
                     </div>
                 </div>
 
@@ -247,15 +254,15 @@
                     <div class="bank-grid">
                         <div>
                             <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Bank Name</span>
-                            <span class="info-value" style="font-weight:600;">IDBI Bank</span>
+                            <span class="info-value" id="payslip-bank-val" style="font-weight:600;">IDBI Bank</span>
                         </div>
                         <div>
                             <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Account Name</span>
-                            <span class="info-value" style="font-weight:600;">Shah Stavan Purveshbhai</span>
+                            <span class="info-value" id="payslip-acc-name-val" style="font-weight:600;">Shah Stavan Purveshbhai</span>
                         </div>
                         <div>
                             <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Account Number</span>
-                            <span class="info-value" style="font-weight:600; font-family: monospace;">220104000205252</span>
+                            <span class="info-value" id="payslip-acc-no-val" style="font-weight:600; font-family: monospace;">220104000205252</span>
                         </div>
                     </div>
                 </div>
