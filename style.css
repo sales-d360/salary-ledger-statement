@@ -811,9 +811,15 @@ tfoot {
     }
 
     /* Print specific column width overrides to sum to 100% when Action column is hidden */
-    .col-date { width: 12% !important; }
+    .col-date { width: 15% !important; }
     .col-month { width: 15% !important; }
-    .col-ref { width: 20% !important; }
-    .col-head { width: 38% !important; }
+    .col-ref { width: 18% !important; }
+    .col-head { width: 37% !important; }
     .col-amount { width: 15% !important; }
+
+    /* Reduce cell padding in print view to avoid text overflow in fixed layout */
+    .ledger-table td,
+    .ledger-table th {
+        padding: 0.75rem 0.5rem !important;
+    }
 }
