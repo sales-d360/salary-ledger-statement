@@ -809,4 +809,11 @@ tfoot {
     .print-thead-show {
         display: table-header-group !important;
     }
+
+    /* Print specific column width overrides to sum to 100% when Action column is hidden */
+    .col-date { width: 12% !important; }
+    .col-month { width: 15% !important; }
+    .col-ref { width: 20% !important; }
+    .col-head { width: 38% !important; }
+    .col-amount { width: 15% !important; }
 }
