@@ -18,9 +18,9 @@ const employees = {
     }
 };
 
-// Chronological transaction register data (FY 2025-26)
+// Chronological transaction register data
 const transactions = [
-    // Stavan Purveshbhai Shah transactions
+    // Stavan Purveshbhai Shah transactions (FY 2025-26)
     { employeeId: "stavan", date: "05/05/2025", salaryMonth: "April 2025", vtype: "BPmt", ref: "566880405", head: "ICICI Bank A/c", amount: 25000.00 },
     { employeeId: "stavan", date: "05/06/2025", salaryMonth: "May 2025", vtype: "BPmt", ref: "566880416", head: "ICICI Bank A/c", amount: 25000.00 },
     { employeeId: "stavan", date: "05/07/2025", salaryMonth: "June 2025", vtype: "BPmt", ref: "566880430", head: "ICICI Bank A/c", amount: 40000.00 },
@@ -34,10 +34,23 @@ const transactions = [
     { employeeId: "stavan", date: "07/03/2026", salaryMonth: "February 2026", vtype: "BPmt", ref: "22", head: "ICICI Bank A/c", amount: 40000.00 },
     { employeeId: "stavan", date: "31/03/2026", salaryMonth: "March 2026", vtype: "Jrnl", ref: "Provision", head: "Payable Salary", amount: 40000.00 },
 
-    // Mock entries for Dhruvil Tarun Shah (to demonstrate multi-employee selector works)
-    { employeeId: "dhruvil", date: "05/05/2025", salaryMonth: "April 2025", vtype: "BPmt", ref: "1001", head: "HDFC Bank A/c", amount: 35000.00 },
-    { employeeId: "dhruvil", date: "05/06/2025", salaryMonth: "May 2025", vtype: "BPmt", ref: "1002", head: "HDFC Bank A/c", amount: 35000.00 },
-    { employeeId: "dhruvil", date: "05/07/2025", salaryMonth: "June 2025", vtype: "BPmt", ref: "1003", head: "HDFC Bank A/c", amount: 38000.00 }
+    // Dhruvil Tarun Shah transactions (FY 2025-26 + FY 2026-27 entries)
+    { employeeId: "dhruvil", date: "05/05/2025", salaryMonth: "April 2025", vtype: "BPmt", ref: "566880404", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "05/06/2025", salaryMonth: "May 2025", vtype: "BPmt", ref: "566880414", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "05/07/2025", salaryMonth: "June 2025", vtype: "BPmt", ref: "566880428", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "05/08/2025", salaryMonth: "July 2025", vtype: "BPmt", ref: "566880440", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "03/09/2025", salaryMonth: "August 2025", vtype: "BPmt", ref: "8", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "06/10/2025", salaryMonth: "September 2025", vtype: "BPmt", ref: "21", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "05/11/2025", salaryMonth: "October 2025", vtype: "BPmt", ref: "28", head: "ICICI Bank A/c", amount: 41000.00 },
+    { employeeId: "dhruvil", date: "06/12/2025", salaryMonth: "November 2025", vtype: "BPmt", ref: "38", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "04/01/2026", salaryMonth: "December 2025", vtype: "BPmt", ref: "43", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "03/02/2026", salaryMonth: "January 2026", vtype: "BPmt", ref: "6", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "07/03/2026", salaryMonth: "February 2026", vtype: "BPmt", ref: "20", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "31/03/2026", salaryMonth: "March 2026", vtype: "Jrnl", ref: "Provision", head: "Payable Salary", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "06/04/2026", salaryMonth: "March 2026", vtype: "BPmt", ref: "2", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "05/05/2026", salaryMonth: "April 2026", vtype: "BPmt", ref: "12", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "04/06/2026", salaryMonth: "May 2026", vtype: "BPmt", ref: "21", head: "ICICI Bank A/c", amount: 55000.00 },
+    { employeeId: "dhruvil", date: "06/07/2026", salaryMonth: "June 2026", vtype: "BPmt", ref: "32", head: "ICICI Bank A/c", amount: 50000.00 }
 ];
 
 // Elements
