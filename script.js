@@ -43,6 +43,69 @@ function parseDate(dateStr) {
     return new Date(dateStr);
 }
 
+// Helper: Format date picker string YYYY-MM-DD to DD/MM/YYYY
+function formatDatepickerString(dateStr) {
+    if (!dateStr) return "";
+    const parts = dateStr.split("-");
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+// Update the ledger header period dynamically based on filters or visible transaction dates
+function updateLedgerPeriod(data) {
+    const periodLabel = document.getElementById("ledger-period-label");
+    if (!periodLabel) return;
+
+    const startDateVal = startDateInput.value;
+    const endDateVal = endDateInput.value;
+
+    // Case 1: Date filters are active in control panel
+    if (startDateVal || endDateVal) {
+        if (startDateVal && endDateVal) {
+            periodLabel.innerHTML = `Period: <span>${formatDatepickerString(startDateVal)} to ${formatDatepickerString(endDateVal)}</span>`;
+        } else if (startDateVal) {
+            periodLabel.innerHTML = `Period: <span>From ${formatDatepickerString(startDateVal)}</span>`;
+        } else {
+            periodLabel.innerHTML = `Period: <span>Up to ${formatDatepickerString(endDateVal)}</span>`;
+        }
+        return;
+    }
+
+    // Case 2: No active date filters (scan visible transactions)
+    if (!data || data.length === 0) {
+        periodLabel.innerHTML = `Financial Year: <span>N.A.</span>`;
+        return;
+    }
+
+    // Convert transaction dates to Date objects to find range
+    const dates = data.map(tx => parseDate(tx.date));
+    const minDate = new Date(Math.min(...dates));
+    const maxDate = new Date(Math.max(...dates));
+
+    // Calculate Indian Financial Year for min/max dates
+    // Indian FY starts on April 1st (month index 3)
+    const getFyStartYear = (d) => {
+        return d.getMonth() >= 3 ? d.getFullYear() : d.getFullYear() - 1;
+    };
+
+    const minFyStart = getFyStartYear(minDate);
+    const maxFyStart = getFyStartYear(maxDate);
+
+    if (minFyStart === maxFyStart) {
+        // Single financial year represented
+        const nextYearShort = (minFyStart + 1) % 100;
+        periodLabel.innerHTML = `Financial Year: <span>${minFyStart}-${nextYearShort}</span>`;
+    } else {
+        // Spans multiple financial years
+        const formatDate = (d) => {
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            return `${day}/${month}/${year}`;
+        };
+        periodLabel.innerHTML = `Period: <span>${formatDate(minDate)} to ${formatDate(maxDate)}</span>`;
+    }
+}
+
 // Render ledger rows
 function renderLedger(data) {
     tableBody.innerHTML = "";
@@ -54,6 +117,7 @@ function renderLedger(data) {
             </tr>
         `;
         totalAmountElement.innerHTML = `<span class="double-underline">₹ 0.00</span>`;
+        updateLedgerPeriod(data);
         return;
     }
 
@@ -79,6 +143,9 @@ function renderLedger(data) {
 
     // Update dynamic sum with accounting underline
     totalAmountElement.innerHTML = `<span class="double-underline">₹ ${formatCurrency(totalSum)}</span>`;
+    
+    // Dynamically calculate and update period header
+    updateLedgerPeriod(data);
 }
 
 // Helper: Convert number to English currency words
