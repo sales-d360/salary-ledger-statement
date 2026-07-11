@@ -130,7 +130,6 @@ function renderLedger(data) {
         row.innerHTML = `
             <td class="col-date">${tx.date}</td>
             <td class="col-month">${tx.salaryMonth}</td>
-            <td class="col-vtype">${tx.vtype}</td>
             <td class="col-ref">${tx.ref}</td>
             <td class="col-head">${tx.head}</td>
             <td class="col-amount col-amount-val">${formatCurrency(tx.amount)}</td>

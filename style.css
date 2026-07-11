@@ -293,9 +293,8 @@ body {
 /* Column Alignments */
 .col-date { width: 10%; }
 .col-month { width: 15%; }
-.col-vtype { width: 12%; }
-.col-ref { width: 18%; }
-.col-head { width: 23%; }
+.col-ref { width: 20%; }
+.col-head { width: 33%; }
 .col-amount { width: 12%; text-align: right; }
 
 .col-amount-val {
