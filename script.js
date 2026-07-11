@@ -46,7 +46,6 @@ const transactions = [
     { employeeId: "dhruvil", date: "04/01/2026", salaryMonth: "December 2025", vtype: "BPmt", ref: "43", head: "ICICI Bank A/c", amount: 55000.00 },
     { employeeId: "dhruvil", date: "03/02/2026", salaryMonth: "January 2026", vtype: "BPmt", ref: "6", head: "ICICI Bank A/c", amount: 55000.00 },
     { employeeId: "dhruvil", date: "07/03/2026", salaryMonth: "February 2026", vtype: "BPmt", ref: "20", head: "ICICI Bank A/c", amount: 55000.00 },
-    { employeeId: "dhruvil", date: "31/03/2026", salaryMonth: "March 2026", vtype: "Jrnl", ref: "Provision", head: "Payable Salary", amount: 55000.00 },
     { employeeId: "dhruvil", date: "06/04/2026", salaryMonth: "March 2026", vtype: "BPmt", ref: "2", head: "ICICI Bank A/c", amount: 55000.00 },
     { employeeId: "dhruvil", date: "05/05/2026", salaryMonth: "April 2026", vtype: "BPmt", ref: "12", head: "ICICI Bank A/c", amount: 55000.00 },
     { employeeId: "dhruvil", date: "04/06/2026", salaryMonth: "May 2026", vtype: "BPmt", ref: "21", head: "ICICI Bank A/c", amount: 55000.00 },

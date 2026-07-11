@@ -60,10 +60,10 @@ dhruvil_sum = sum(dhruvil_amounts)
 print(f"Dhruvil's transactions found: {len(dhruvil_amounts)}")
 print(f"Dhruvil's Computed Sum: Rs. {dhruvil_sum:,.2f}")
 
-if stavan_sum == 450000.0 and dhruvil_sum == 861000.0:
-    print("OK: Stavan's sum matches Rs. 450,000.00 and Dhruvil's sum matches Rs. 861,000.00 exactly!")
+if stavan_sum == 450000.0 and dhruvil_sum == 806000.0:
+    print("OK: Stavan's sum matches Rs. 450,000.00 and Dhruvil's sum matches Rs. 806,000.00 exactly!")
 else:
-    print(f"ERROR: Incorrect sums. Stavan: {stavan_sum} (expected 450000.0), Dhruvil: {dhruvil_sum} (expected 861000.0)")
+    print(f"ERROR: Incorrect sums. Stavan: {stavan_sum} (expected 450000.0), Dhruvil: {dhruvil_sum} (expected 806000.0)")
 
 print("\n--- Verifying CSS Accounting Rules ---")
 with open(os.path.join(project_dir, "style.css"), "r", encoding="utf-8") as css_file:
