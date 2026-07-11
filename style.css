@@ -136,15 +136,6 @@ body {
     border: 1px solid #e2e8f0;
     position: relative;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-
-#printable-ledger {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
 }
 
 /* Header styling */
@@ -705,20 +696,13 @@ tfoot {
     }
     
     .ledger-sheet {
-        width: 210mm !important;
-        height: 297mm !important;
-        min-height: 297mm !important;
-        max-height: 297mm !important;
-        padding: 20mm !important;
-        margin: 0 auto !important;
-        border: none !important;
         box-shadow: none !important;
-        border-radius: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        box-sizing: border-box !important;
-        page-break-after: always !important;
-        position: relative !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        page-break-inside: auto; /* Allow natural break across pages */
     }
     
     .ledger-table th {
@@ -769,23 +753,47 @@ tfoot {
     }
 
     @page {
-        size: A4;
-        margin: 0;
+        margin: 15mm;
     }
     
-    /* Print footer pushed to the bottom of the A4 page sheet */
+    /* Footer formatting for print */
     .ledger-footer {
-        margin-top: auto !important;
         display: flex !important;
         justify-content: space-between !important;
         border-top: 1px solid #e2e8f0 !important;
         padding-top: 0.5rem !important;
         font-size: 0.75rem !important;
         color: #555 !important;
+        margin-top: 2rem !important;
         width: 100% !important;
     }
+
+    /* Dynamic print page break rows styling */
+    .print-page-break-row {
+        display: none;
+    }
     
-    body.modal-open .ledger-footer {
-        display: none !important;
+    .print-page-break-row td {
+        border: none !important;
+        padding: 0 !important;
+    }
+    
+    .print-footer-row-content {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: #555;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 0.5rem;
+        margin-top: 2rem;
+        width: 100%;
+    }
+}
+
+@media print {
+    .print-page-break-row {
+        display: table-row !important;
+        page-break-after: always !important;
+        break-after: page !important;
     }
 }
