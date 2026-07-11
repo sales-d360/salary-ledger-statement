@@ -355,8 +355,8 @@ function renderLedger(data) {
         `;
     } else {
         // Spans 2 pages (like Dhruvil or Stavan's continuous list)
-        const firstPageData = data.slice(0, 7);
-        const secondPageData = data.slice(7);
+        const firstPageData = data.slice(0, 5);
+        const secondPageData = data.slice(5);
 
         const rows1Html = firstPageData.map(tx => `
             <tr>

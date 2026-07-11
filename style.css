@@ -710,6 +710,7 @@ tfoot {
         margin: 0 !important;
         max-width: 100% !important;
         width: 100% !important;
+        overflow: visible !important;
         page-break-inside: auto; /* Allow natural break across pages */
     }
     
@@ -783,8 +784,10 @@ tfoot {
         padding-top: 0.5rem !important;
         font-size: 0.75rem !important;
         color: #555 !important;
-        margin-top: 2rem !important;
+        margin-top: 1.5rem !important;
         width: 100% !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
         page-break-after: always !important;
         break-after: page !important;
     }
