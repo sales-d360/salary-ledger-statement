@@ -679,6 +679,15 @@ tfoot {
     padding-top: 0.8rem;
 }
 
+/* Screen hidden print elements */
+.print-page-footer,
+.print-page-break,
+.ledger-header-continuation,
+.print-header-separator,
+.print-thead-show {
+    display: none;
+}
+
 /* Print Styles */
 @media print {
     body {
@@ -759,7 +768,7 @@ tfoot {
     /* Footer formatting for print */
     .ledger-footer {
         display: flex !important;
-        justify-content: space-between !important;
+        justify-content: flex-end !important;
         border-top: 1px solid #e2e8f0 !important;
         padding-top: 0.5rem !important;
         font-size: 0.75rem !important;
@@ -768,32 +777,36 @@ tfoot {
         width: 100% !important;
     }
 
-    /* Dynamic print page break rows styling */
-    .print-page-break-row {
-        display: none;
+    .print-page-footer {
+        display: flex !important;
+        justify-content: flex-end !important;
+        border-top: 1px solid #e2e8f0 !important;
+        padding-top: 0.5rem !important;
+        font-size: 0.75rem !important;
+        color: #555 !important;
+        margin-top: 2rem !important;
+        width: 100% !important;
     }
-    
-    .print-page-break-row td {
-        border: none !important;
-        padding: 0 !important;
-    }
-    
-    .print-footer-row-content {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.75rem;
-        color: #555;
-        border-top: 1px solid #e2e8f0;
-        padding-top: 0.5rem;
-        margin-top: 2rem;
-        width: 100%;
-    }
-}
 
-@media print {
-    .print-page-break-row {
-        display: table-row !important;
-        page-break-after: always !important;
-        break-after: page !important;
+    .print-page-break {
+        display: block !important;
+        page-break-before: always !important;
+        break-before: page !important;
+    }
+
+    .ledger-header-continuation {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-top: 1rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .print-header-separator {
+        display: block !important;
+    }
+
+    .print-thead-show {
+        display: table-header-group !important;
     }
 }

@@ -53,16 +53,13 @@ const transactions = [
 ];
 
 // Elements
-const tableBody = document.getElementById("ledger-body");
-const totalAmountElement = document.getElementById("total-amount");
+const printableLedger = document.getElementById("printable-ledger");
 const employeeFilter = document.getElementById("filter-employee");
 const searchInput = document.getElementById("search-input");
 const startDateInput = document.getElementById("filter-start-date");
 const endDateInput = document.getElementById("filter-end-date");
 const printBtn = document.getElementById("print-btn");
 const resetBtn = document.getElementById("reset-btn");
-const printDateElement = document.getElementById("print-date");
-const pageNumberElement = document.getElementById("print-page-number");
 
 // Helper: Format currency (₹ #,##0.00)
 function formatCurrency(value) {
@@ -141,81 +138,389 @@ function updateLedgerPeriod(data) {
     }
 }
 
-// Render ledger rows
+// Render ledger rows partitioned into clean A4 pages
 function renderLedger(data) {
-    tableBody.innerHTML = "";
+    printableLedger.innerHTML = "";
 
-    // Generate dynamic print timestamp
-    const now = new Date();
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-    const printDate = now.toLocaleDateString('en-US', options);
-    if (printDateElement) {
-        printDateElement.textContent = printDate;
-    }
+    const empId = employeeFilter.value;
+    const emp = employees[empId];
 
     if (data.length === 0) {
-        tableBody.innerHTML = `
-            <tr class="empty-row">
-                <td colspan="5">No transactions found matching the filters.</td>
-            </tr>
+        printableLedger.innerHTML = `
+            <!-- Header & Company Info -->
+            <div class="ledger-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="D360 BUSINESS ASSIST logo">
+                </div>
+                <div class="company-info">
+                    <div class="company-name">D360 BUSINESS ASSIST PVT. LTD.</div>
+                    <div class="company-details">
+                        <p>Plot No. 18, Sy No. 310, Patel Falia,</p>
+                        <p>Nr. Katargam Fire Station, Katargam, Surat, Gujarat, 395004</p>
+                        <p>GSTIN: <span class="gstin">24AAJCD9037G1ZL</span></p>
+                        <p>Contact: +91 8799 600 360 | Email: info@d360.tech</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heavy border separator -->
+            <div class="header-separator"></div>
+
+            <div class="document-title-section">
+                <div>
+                    <h1 class="document-title">Salary Ledger Statement</h1>
+                </div>
+                <div class="document-meta">
+                    <p id="ledger-period-label">Financial Year: <span>N.A.</span></p>
+                </div>
+            </div>
+
+            <!-- Employee Profile Block -->
+            <div class="employee-profile">
+                <div class="profile-card">
+                    <span class="profile-label">Employee Name</span>
+                    <span class="profile-value emp-name">${emp.name}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Designation</span>
+                    <span class="profile-value">${emp.designation}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Bank Name</span>
+                    <span class="profile-value">${emp.bankName}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Account Name</span>
+                    <span class="profile-value">${emp.accountName}</span>
+                </div>
+                <div class="profile-card" style="grid-column: span 2;">
+                    <span class="profile-label">Account No.</span>
+                    <span class="profile-value" style="font-family: monospace; font-size: 0.95rem; font-weight: 600;">${emp.accountNo}</span>
+                </div>
+            </div>
+
+            <div class="ledger-table-container">
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th class="col-date">Date</th>
+                            <th class="col-month">Salary Month</th>
+                            <th class="col-ref">Ref No / Description</th>
+                            <th class="col-head">Account Head / Mode</th>
+                            <th class="col-amount">Amount (₹)</th>
+                            <th class="col-action" style="width: 10%; text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="empty-row">
+                            <td colspan="5">No transactions found matching the filters.</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4" class="total-label">Grand Total</td>
+                            <td class="total-amount col-amount-val">
+                                <span class="double-underline">₹ 0.00</span>
+                            </td>
+                            <td class="col-action"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Page Footer -->
+            <div class="ledger-footer">
+                <div>Page 1 of 1</div>
+            </div>
         `;
-        totalAmountElement.innerHTML = `<span class="double-underline">₹ 0.00</span>`;
-        if (pageNumberElement) {
-            pageNumberElement.textContent = "Page 1 of 1";
-        }
         updateLedgerPeriod(data);
         return;
     }
 
-    let totalSum = 0;
-    const firstPageLimit = 7; // Cut-off for Page 1 footer split
+    const totalSum = data.reduce((sum, tx) => sum + tx.amount, 0);
 
-    data.forEach((tx, index) => {
-        totalSum += tx.amount;
-        const row = document.createElement("tr");
-        
-        row.innerHTML = `
-            <td class="col-date">${tx.date}</td>
-            <td class="col-month">${tx.salaryMonth}</td>
-            <td class="col-ref">${tx.ref}</td>
-            <td class="col-head">${tx.head}</td>
-            <td class="col-amount col-amount-val">${formatCurrency(tx.amount)}</td>
-            <td class="col-action">
-                <button class="btn-sm" onclick="viewPayslip('${tx.date}', ${tx.amount}, '${tx.salaryMonth}')">View Slip</button>
-            </td>
-        `;
-        
-        tableBody.appendChild(row);
-
-        // If statement spans multiple pages (> 8 transactions), inject a print-only page break row
-        if (data.length > 8 && index === firstPageLimit - 1) {
-            const pageBreakRow = document.createElement("tr");
-            pageBreakRow.className = "print-page-break-row";
-            pageBreakRow.innerHTML = `
-                <td colspan="5">
-                    <div class="print-footer-row-content">
-                        <div>Generated on: <span>${printDate}</span></div>
-                        <div>Page 1 of 2</div>
-                    </div>
+    // If transactions <= 8, render everything in a single table block
+    if (data.length <= 8) {
+        const rowsHtml = data.map(tx => `
+            <tr>
+                <td class="col-date">${tx.date}</td>
+                <td class="col-month">${tx.salaryMonth}</td>
+                <td class="col-ref">${tx.ref}</td>
+                <td class="col-head">${tx.head}</td>
+                <td class="col-amount col-amount-val">${formatCurrency(tx.amount)}</td>
+                <td class="col-action">
+                    <button class="btn-sm" onclick="viewPayslip('${tx.date}', ${tx.amount}, '${tx.salaryMonth}')">View Slip</button>
                 </td>
-            `;
-            tableBody.appendChild(pageBreakRow);
-        }
-    });
+            </tr>
+        `).join("");
 
-    // Update dynamic sum with accounting underline
-    totalAmountElement.innerHTML = `<span class="double-underline">₹ ${formatCurrency(totalSum)}</span>`;
-    
-    // Set dynamic page counter in final footer
-    if (pageNumberElement) {
-        if (data.length > 8) {
-            pageNumberElement.textContent = "Page 2 of 2";
-        } else {
-            pageNumberElement.textContent = "Page 1 of 1";
-        }
+        printableLedger.innerHTML = `
+            <!-- Header & Company Info -->
+            <div class="ledger-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="D360 BUSINESS ASSIST logo">
+                </div>
+                <div class="company-info">
+                    <div class="company-name">D360 BUSINESS ASSIST PVT. LTD.</div>
+                    <div class="company-details">
+                        <p>Plot No. 18, Sy No. 310, Patel Falia,</p>
+                        <p>Nr. Katargam Fire Station, Katargam, Surat, Gujarat, 395004</p>
+                        <p>GSTIN: <span class="gstin">24AAJCD9037G1ZL</span></p>
+                        <p>Contact: +91 8799 600 360 | Email: info@d360.tech</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heavy accent border -->
+            <div class="header-separator"></div>
+
+            <!-- Title Section -->
+            <div class="document-title-section">
+                <div>
+                    <h1 class="document-title">Salary Ledger Statement</h1>
+                </div>
+                <div class="document-meta">
+                    <p id="ledger-period-label"></p>
+                </div>
+            </div>
+
+            <!-- Employee Profile Block -->
+            <div class="employee-profile">
+                <div class="profile-card">
+                    <span class="profile-label">Employee Name</span>
+                    <span class="profile-value emp-name">${emp.name}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Designation</span>
+                    <span class="profile-value">${emp.designation}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Bank Name</span>
+                    <span class="profile-value">${emp.bankName}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Account Name</span>
+                    <span class="profile-value">${emp.accountName}</span>
+                </div>
+                <div class="profile-card" style="grid-column: span 2;">
+                    <span class="profile-label">Account No.</span>
+                    <span class="profile-value" style="font-family: monospace; font-size: 0.95rem; font-weight: 600;">${emp.accountNo}</span>
+                </div>
+            </div>
+
+            <div class="ledger-table-container">
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th class="col-date">Date</th>
+                            <th class="col-month">Salary Month</th>
+                            <th class="col-ref">Ref No / Description</th>
+                            <th class="col-head">Account Head / Mode</th>
+                            <th class="col-amount">Amount (₹)</th>
+                            <th class="col-action" style="width: 10%; text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml}
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4" class="total-label">Grand Total</td>
+                            <td class="total-amount col-amount-val">
+                                <span class="double-underline">₹ ${formatCurrency(totalSum)}</span>
+                            </td>
+                            <td class="col-action"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Signature block -->
+            <div class="signature-section">
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <div class="signature-title">Employee Signature</div>
+                    <div class="signature-subtitle">${emp.name}</div>
+                </div>
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <div class="signature-title">Authorized Signatory</div>
+                    <div class="signature-subtitle">D360 BUSINESS ASSIST PVT. LTD.</div>
+                </div>
+            </div>
+
+            <div class="ledger-footer">
+                <div>Page 1 of 1</div>
+            </div>
+        `;
+    } else {
+        // Spans 2 pages (like Dhruvil or Stavan's continuous list)
+        const firstPageData = data.slice(0, 7);
+        const secondPageData = data.slice(7);
+
+        const rows1Html = firstPageData.map(tx => `
+            <tr>
+                <td class="col-date">${tx.date}</td>
+                <td class="col-month">${tx.salaryMonth}</td>
+                <td class="col-ref">${tx.ref}</td>
+                <td class="col-head">${tx.head}</td>
+                <td class="col-amount col-amount-val">${formatCurrency(tx.amount)}</td>
+                <td class="col-action">
+                    <button class="btn-sm" onclick="viewPayslip('${tx.date}', ${tx.amount}, '${tx.salaryMonth}')">View Slip</button>
+                </td>
+            </tr>
+        `).join("");
+
+        const rows2Html = secondPageData.map(tx => `
+            <tr>
+                <td class="col-date">${tx.date}</td>
+                <td class="col-month">${tx.salaryMonth}</td>
+                <td class="col-ref">${tx.ref}</td>
+                <td class="col-head">${tx.head}</td>
+                <td class="col-amount col-amount-val">${formatCurrency(tx.amount)}</td>
+                <td class="col-action">
+                    <button class="btn-sm" onclick="viewPayslip('${tx.date}', ${tx.amount}, '${tx.salaryMonth}')">View Slip</button>
+                </td>
+            </tr>
+        `).join("");
+
+        printableLedger.innerHTML = `
+            <!-- Header & Company Info -->
+            <div class="ledger-header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="D360 BUSINESS ASSIST logo">
+                </div>
+                <div class="company-info">
+                    <div class="company-name">D360 BUSINESS ASSIST PVT. LTD.</div>
+                    <div class="company-details">
+                        <p>Plot No. 18, Sy No. 310, Patel Falia,</p>
+                        <p>Nr. Katargam Fire Station, Katargam, Surat, Gujarat, 395004</p>
+                        <p>GSTIN: <span class="gstin">24AAJCD9037G1ZL</span></p>
+                        <p>Contact: +91 8799 600 360 | Email: info@d360.tech</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heavy accent border -->
+            <div class="header-separator"></div>
+
+            <!-- Title Section -->
+            <div class="document-title-section">
+                <div>
+                    <h1 class="document-title">Salary Ledger Statement</h1>
+                </div>
+                <div class="document-meta">
+                    <p id="ledger-period-label"></p>
+                </div>
+            </div>
+
+            <!-- Employee Profile Block -->
+            <div class="employee-profile">
+                <div class="profile-card">
+                    <span class="profile-label">Employee Name</span>
+                    <span class="profile-value emp-name">${emp.name}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Designation</span>
+                    <span class="profile-value">${emp.designation}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Bank Name</span>
+                    <span class="profile-value">${emp.bankName}</span>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-label">Account Name</span>
+                    <span class="profile-value">${emp.accountName}</span>
+                </div>
+                <div class="profile-card" style="grid-column: span 2;">
+                    <span class="profile-label">Account No.</span>
+                    <span class="profile-value" style="font-family: monospace; font-size: 0.95rem; font-weight: 600;">${emp.accountNo}</span>
+                </div>
+            </div>
+
+            <!-- Table 1 (Page 1 content) -->
+            <div class="ledger-table-container" style="margin-bottom: 0;">
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th class="col-date">Date</th>
+                            <th class="col-month">Salary Month</th>
+                            <th class="col-ref">Ref No / Description</th>
+                            <th class="col-head">Account Head / Mode</th>
+                            <th class="col-amount">Amount (₹)</th>
+                            <th class="col-action" style="width: 10%; text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows1Html}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Page 1 Footer (Print-only) -->
+            <div class="print-page-footer">
+                <div>Page 1 of 2</div>
+            </div>
+
+            <!-- Forced print page break -->
+            <div class="print-page-break"></div>
+
+            <!-- Table 2 Header Continuation (Print-only) -->
+            <div class="ledger-header-continuation">
+                <div style="font-weight:700; color:var(--primary-color); font-size: 1rem; text-transform: uppercase;">Salary Ledger - ${emp.name} (Continued)</div>
+                <div style="font-size:0.8rem; color:var(--text-muted); font-weight: 600;">Period: FY 2025-26</div>
+            </div>
+            <div class="header-separator print-header-separator" style="height: 2px; margin-bottom: 1.5rem;"></div>
+
+            <!-- Table 2 (Page 2 content) -->
+            <div class="ledger-table-container">
+                <table class="ledger-table">
+                    <thead class="print-thead-show">
+                        <tr>
+                            <th class="col-date">Date</th>
+                            <th class="col-month">Salary Month</th>
+                            <th class="col-ref">Ref No / Description</th>
+                            <th class="col-head">Account Head / Mode</th>
+                            <th class="col-amount">Amount (₹)</th>
+                            <th class="col-action" style="width: 10%; text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows2Html}
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4" class="total-label">Grand Total</td>
+                            <td class="total-amount col-amount-val">
+                                <span class="double-underline">₹ ${formatCurrency(totalSum)}</span>
+                            </td>
+                            <td class="col-action"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Signature block -->
+            <div class="signature-section" style="margin-top: 3rem; margin-bottom: 2rem;">
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <div class="signature-title">Employee Signature</div>
+                    <div class="signature-subtitle">${emp.name}</div>
+                </div>
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <div class="signature-title">Authorized Signatory</div>
+                    <div class="signature-subtitle">D360 BUSINESS ASSIST PVT. LTD.</div>
+                </div>
+            </div>
+
+            <!-- Page 2 Footer -->
+            <div class="ledger-footer">
+                <div>Page 2 of 2</div>
+            </div>
+        `;
     }
 
-    // Dynamically calculate and update period header
     updateLedgerPeriod(data);
 }
 
@@ -300,18 +605,6 @@ window.printPayslip = function() {
     window.print();
 };
 
-// Update employee details in HTML profile block and signature
-function updateEmployeeProfile(empId) {
-    const emp = employees[empId];
-    if (!emp) return;
-    document.getElementById("emp-name").textContent = emp.name;
-    document.getElementById("emp-designation").textContent = emp.designation;
-    document.getElementById("emp-bank").textContent = emp.bankName;
-    document.getElementById("emp-acc-name").textContent = emp.accountName;
-    document.getElementById("emp-acc-no").textContent = emp.accountNo;
-    document.getElementById("sig-emp-name").textContent = emp.name;
-}
-
 // Filter logic
 function applyFilters() {
     const selectedEmp = employeeFilter.value;
@@ -364,7 +657,6 @@ function resetFilters() {
 
 // Event Listeners
 employeeFilter.addEventListener("change", () => {
-    updateEmployeeProfile(employeeFilter.value);
     applyFilters();
 });
 searchInput.addEventListener("input", applyFilters);
@@ -379,7 +671,6 @@ printBtn.addEventListener("click", () => {
 // Init page details
 function init() {
     // Initial render
-    updateEmployeeProfile(employeeFilter.value);
     applyFilters();
 }
 
