@@ -50,7 +50,7 @@ function renderLedger(data) {
     if (data.length === 0) {
         tableBody.innerHTML = `
             <tr class="empty-row">
-                <td colspan="5">No transactions found matching the filters.</td>
+                <td colspan="6">No transactions found matching the filters.</td>
             </tr>
         `;
         totalAmountElement.innerHTML = `<span class="double-underline">₹ 0.00</span>`;
@@ -69,6 +69,9 @@ function renderLedger(data) {
             <td class="col-ref">${tx.ref}</td>
             <td class="col-head">${tx.head}</td>
             <td class="col-amount col-amount-val">${formatCurrency(tx.amount)}</td>
+            <td class="col-action">
+                <button class="btn-sm" onclick="viewPayslip('${tx.date}', ${tx.amount})">View Slip</button>
+            </td>
         `;
         
         tableBody.appendChild(row);
@@ -77,6 +80,83 @@ function renderLedger(data) {
     // Update dynamic sum with accounting underline
     totalAmountElement.innerHTML = `<span class="double-underline">₹ ${formatCurrency(totalSum)}</span>`;
 }
+
+// Helper: Convert number to English currency words
+function numberToWords(num) {
+    const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    
+    if (num === 0) return 'Zero';
+    
+    let words = '';
+    
+    function convertLessThanThousand(n) {
+        let str = '';
+        if (n >= 100) {
+            str += a[Math.floor(n / 100)] + ' Hundred ';
+            n %= 100;
+        }
+        if (n >= 20) {
+            str += b[Math.floor(n / 10)] + ' ';
+            n %= 10;
+        }
+        if (n > 0) {
+            str += a[n] + ' ';
+        }
+        return str.trim();
+    }
+    
+    let lakh = Math.floor(num / 100000);
+    num %= 100000;
+    let thousand = Math.floor(num / 1000);
+    num %= 1000;
+    
+    if (lakh > 0) {
+        words += convertLessThanThousand(lakh) + ' Lakh ';
+    }
+    if (thousand > 0) {
+        words += convertLessThanThousand(thousand) + ' Thousand ';
+    }
+    if (num > 0) {
+        words += convertLessThanThousand(num);
+    }
+    
+    return (words.trim() + ' Only').replace(/\s+/g, ' ');
+}
+
+// Controller: View Payslip in Modal
+window.viewPayslip = function(dateStr, amount) {
+    const modal = document.getElementById("payslip-modal");
+    
+    // Parse Date to Month Name + Year
+    const parts = dateStr.split("/");
+    const monthIndex = parseInt(parts[1], 10) - 1;
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthYear = `${months[monthIndex]} ${parts[2]}`;
+    
+    // Fill dynamic values
+    document.getElementById("payslip-date-val").textContent = monthYear;
+    document.getElementById("payslip-basic-val").textContent = formatCurrency(amount);
+    document.getElementById("payslip-total-earn-val").textContent = formatCurrency(amount);
+    document.getElementById("payslip-net-val").textContent = `₹ ${formatCurrency(amount)}`;
+    document.getElementById("payslip-words-val").textContent = numberToWords(amount);
+    
+    // Open modal
+    modal.classList.add("active");
+    document.body.classList.add("modal-open");
+};
+
+// Controller: Close Payslip Modal
+window.closePayslip = function() {
+    const modal = document.getElementById("payslip-modal");
+    modal.classList.remove("active");
+    document.body.classList.remove("modal-open");
+};
+
+// Controller: Print Payslip
+window.printPayslip = function() {
+    window.print();
+};
 
 // Filter logic
 function applyFilters() {

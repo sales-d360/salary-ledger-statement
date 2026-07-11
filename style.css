@@ -381,15 +381,293 @@ tfoot {
     margin-top: 0.15rem;
 }
 
-/* Ledger Footer */
-.ledger-footer {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.7rem;
-    color: var(--text-muted);
     border-top: 1px solid #e2e8f0;
     padding-top: 1rem;
     margin-top: 3rem;
+}
+
+/* Action column styling */
+.col-action {
+    text-align: center;
+    width: 12%;
+}
+
+.btn-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: #f1f5f9;
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-sm:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+/* Modal Content Container */
+.modal-content {
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+}
+
+/* Close Button */
+.modal-close-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background-color: #f1f5f9;
+    border: none;
+    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.modal-close-btn:hover {
+    background-color: #cbd5e1;
+    color: var(--primary-color);
+}
+
+.modal-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Payslip Sheet Layout */
+.payslip-sheet {
+    width: 100%;
+    background-color: var(--white);
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    border: 1px solid #e2e8f0;
+    position: relative;
+}
+
+.payslip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.logo-box img {
+    height: 50px;
+    object-fit: contain;
+}
+
+.company-box {
+    text-align: right;
+    max-width: 450px;
+}
+
+.company-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.company-address {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.title-divider {
+    height: 2px;
+    background-color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.payslip-title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.payslip-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    letter-spacing: 0.02em;
+}
+
+.payslip-date {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+    background-color: #f8fafc;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+}
+
+.info-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0.5rem;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.info-value {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.table-container {
+    margin-bottom: 1.5rem;
+}
+
+.salary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.salary-table th {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    border: 1px solid var(--primary-color);
+}
+
+.salary-table td {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border-color);
+}
+
+.total-row {
+    font-weight: 700;
+    background-color: #f8fafc;
+}
+
+.total-row td {
+    border-top: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.net-pay-section {
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.net-pay-label {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+.net-pay-value {
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--primary-color);
+    border-bottom: 3px double var(--primary-color);
+    padding-bottom: 2px;
+}
+
+.net-pay-words {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.bank-details {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    font-size: 0.8rem;
+}
+
+.bank-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.bank-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.footer-note {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-style: italic;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 0.8rem;
 }
 
 /* Print Styles */
@@ -423,6 +701,40 @@ tfoot {
     
     .employee-profile {
         background-color: var(--accent-color) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Dynamic print layout when payslip is active */
+    body.modal-open .app-container {
+        display: none !important;
+    }
+    
+    body.modal-open .modal-overlay {
+        position: static !important;
+        background-color: transparent !important;
+        padding: 0 !important;
+        display: block !important;
+        overflow: visible !important;
+    }
+    
+    body.modal-open .modal-close-btn,
+    body.modal-open .modal-action-bar {
+        display: none !important;
+    }
+    
+    body.modal-open .payslip-sheet {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    body.modal-open .salary-table th {
+        background-color: var(--primary-color) !important;
+        color: #ffffff !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }

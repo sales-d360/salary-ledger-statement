@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Slip - Stavan Purveshbhai Shah</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #0f172a;
+            --secondary-color: #3b82f6;
+            --border-color: #cbd5e1;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --white: #white;
+            --font-primary: 'Inter', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: #f1f5f9;
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Toolbar for actions */
+        .toolbar {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .toolbar-title {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 0.5rem 1.2rem;
+            font-family: var(--font-primary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .btn:hover {
+            background-color: #1e293b;
+        }
+
+        /* Printable Payslip Sheet */
+        .payslip-sheet {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        /* Header Layout */
+        .payslip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-box img {
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .company-box {
+            text-align: right;
+            max-width: 450px;
+        }
+
+        .company-name {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .company-address {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Title Line */
+        .title-divider {
+            height: 2px;
+            background-color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .payslip-title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .payslip-title {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            letter-spacing: 0.02em;
+        }
+
+        .payslip-date {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-color);
+            background-color: #f8fafc;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Employee Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* Earnings & Deductions Table split */
+        .table-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .salary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        .salary-table th {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            border: 1px solid var(--primary-color);
+        }
+
+        .salary-table td {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .col-amount {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .total-row {
+            font-weight: 700;
+            background-color: #f8fafc;
+        }
+
+        .total-row td {
+            border-top: 1.5px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Net Pay Box */
+        .net-pay-section {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .net-pay-label {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .net-pay-value {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            border-bottom: 3px double var(--primary-color);
+            padding-bottom: 2px;
+        }
+
+        .net-pay-words {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Banking details block */
+        .bank-details {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.8rem;
+        }
+
+        .bank-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .bank-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        /* Footer disclaimer */
+        .footer-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-style: italic;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 0.8rem;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+            }
+
+            .toolbar {
+                display: none !important;
+            }
+
+            .payslip-sheet {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            .salary-table th {
+                background-color: var(--primary-color) !important;
+                color: #ffffff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Action Toolbar (Hidden in print) -->
+    <div class="toolbar">
+        <div class="toolbar-title">Salary Slip Design Outlook (HTML Preview)</div>
+        <button class="btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
+    <!-- Payslip Document Card -->
+    <div class="payslip-sheet">
+        <!-- Header -->
+        <div class="payslip-header">
+            <div class="logo-box">
+                <img src="logo.png" alt="D360 Logo">
+            </div>
+            <div class="company-box">
+                <div class="company-name">D360 BUSINESS ASSIST PVT. LTD.</div>
+                <div class="company-address">
+                    Plot No. 18, Sy No. 310, Patel Falia,<br>
+                    Nr. Katargam Fire Station, Katargam, Surat, Gujarat, 395004
+                </div>
+            </div>
+        </div>
+
+        <div class="title-divider"></div>
+
+        <!-- Title and Month -->
+        <div class="payslip-title-section">
+            <h1 class="payslip-title">Salary Slip</h1>
+            <div class="payslip-date">June 2025</div>
+        </div>
+
+        <!-- Employee Info -->
+        <div class="info-grid">
+            <div class="info-row">
+                <span class="info-label">Employee Name</span>
+                <span class="info-value">: Stavan Purveshbhai Shah</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Designation</span>
+                <span class="info-value">: Software Engineer</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">PF A/c No</span>
+                <span class="info-value">: N.A.</span>
+            </div>
+        </div>
+
+        <!-- Earnings & Deductions Tables -->
+        <div class="table-container">
+            <table class="salary-table">
+                <thead>
+                    <tr>
+                        <th style="width: 35%;">Earnings</th>
+                        <th style="width: 15%; text-align: right;">Amount (Rs.)</th>
+                        <th style="width: 35%;">Deductions</th>
+                        <th style="width: 15%; text-align: right;">Amount (Rs.)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Basic Salary</td>
+                        <td class="col-amount">40,000.00</td>
+                        <td>Provident Fund (PF)</td>
+                        <td class="col-amount">0.00</td>
+                    </tr>
+                    <tr>
+                        <td>HRA</td>
+                        <td class="col-amount">0.00</td>
+                        <td>Professional Tax (PT)</td>
+                        <td class="col-amount">0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Incentive</td>
+                        <td class="col-amount">0.00</td>
+                        <td>Other Deduction</td>
+                        <td class="col-amount">0.00</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Total Earnings</td>
+                        <td class="col-amount">40,000.00</td>
+                        <td>Total Deductions</td>
+                        <td class="col-amount">0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Net Pay Box -->
+        <div class="net-pay-section">
+            <div>
+                <span class="net-pay-label">NET PAY : </span>
+                <span class="net-pay-words">Forty Thousand Only</span>
+            </div>
+            <div class="net-pay-value">₹ 40,000.00</div>
+        </div>
+
+        <!-- Bank Details Block -->
+        <div class="bank-details">
+            <div class="bank-title">Bank Transfer Details</div>
+            <div class="bank-grid">
+                <div>
+                    <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Bank Name</span>
+                    <span class="info-value" style="font-weight:600;">IDBI Bank</span>
+                </div>
+                <div>
+                    <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Account Name</span>
+                    <span class="info-value" style="font-weight:600;">Shah Stavan Purveshbhai</span>
+                </div>
+                <div>
+                    <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Account Number</span>
+                    <span class="info-value" style="font-weight:600; font-family: monospace;">220104000205252</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-note">
+            This is computer/Software generated document, This doesn't required a signature.
+        </div>
+    </div>
+
+</body>
+</html>

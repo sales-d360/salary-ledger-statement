@@ -102,6 +102,7 @@
                             <th class="col-ref">Ref No / Description</th>
                             <th class="col-head">Account Head / Mode</th>
                             <th class="col-amount">Amount (₹)</th>
+                            <th class="col-action" style="width: 12%; text-align: center;">Action</th>
                         </tr>
                     </thead>
                     <tbody id="ledger-body">
@@ -113,6 +114,7 @@
                             <td id="total-amount" class="total-amount col-amount-val">
                                 <!-- Computed dynamic total will be rendered here -->
                             </td>
+                            <td></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -136,6 +138,132 @@
             <div class="ledger-footer">
                 <div>Generated on: <span id="print-date"></span></div>
                 <div>Page 1 of 1</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Salary Slip Modal Overlay -->
+    <div id="payslip-modal" class="modal-overlay">
+        <div class="modal-content">
+            <!-- Action bar (Hidden in print) -->
+            <div class="modal-action-bar">
+                <button class="btn btn-secondary" onclick="closePayslip()">Close</button>
+                <button class="btn btn-primary" onclick="printPayslip()">Print / Save PDF</button>
+            </div>
+            
+            <!-- Payslip Sheet -->
+            <div class="payslip-sheet">
+                <button class="modal-close-btn" onclick="closePayslip()">&times;</button>
+                <!-- Header -->
+                <div class="payslip-header">
+                    <div class="logo-box">
+                        <img src="logo.png" alt="D360 Logo">
+                    </div>
+                    <div class="company-box">
+                        <div class="company-name">D360 BUSINESS ASSIST PVT. LTD.</div>
+                        <div class="company-address">
+                            Plot No. 18, Sy No. 310, Patel Falia,<br>
+                            Nr. Katargam Fire Station, Katargam, Surat, Gujarat, 395004
+                        </div>
+                    </div>
+                </div>
+
+                <div class="title-divider"></div>
+
+                <!-- Title and Month -->
+                <div class="payslip-title-section">
+                    <h1 class="payslip-title">Salary Slip</h1>
+                    <div class="payslip-date" id="payslip-date-val">June 2025</div>
+                </div>
+
+                <!-- Employee Info -->
+                <div class="info-grid">
+                    <div class="info-row">
+                        <span class="info-label">Employee Name</span>
+                        <span class="info-value">: Stavan Purveshbhai Shah</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Designation</span>
+                        <span class="info-value">: Software Engineer</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">PF A/c No</span>
+                        <span class="info-value">: N.A.</span>
+                    </div>
+                </div>
+
+                <!-- Earnings & Deductions Tables -->
+                <div class="table-container">
+                    <table class="salary-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35%;">Earnings</th>
+                                <th style="width: 15%; text-align: right;">Amount (Rs.)</th>
+                                <th style="width: 35%;">Deductions</th>
+                                <th style="width: 15%; text-align: right;">Amount (Rs.)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Basic Salary</td>
+                                <td class="col-amount" id="payslip-basic-val">40,000.00</td>
+                                <td>Provident Fund (PF)</td>
+                                <td class="col-amount">0.00</td>
+                            </tr>
+                            <tr>
+                                <td>HRA</td>
+                                <td class="col-amount">0.00</td>
+                                <td>Professional Tax (PT)</td>
+                                <td class="col-amount">0.00</td>
+                            </tr>
+                            <tr>
+                                <td>Incentive</td>
+                                <td class="col-amount">0.00</td>
+                                <td>Other Deduction</td>
+                                <td class="col-amount">0.00</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>Total Earnings</td>
+                                <td class="col-amount" id="payslip-total-earn-val">40,000.00</td>
+                                <td>Total Deductions</td>
+                                <td class="col-amount">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Net Pay Box -->
+                <div class="net-pay-section">
+                    <div>
+                        <span class="net-pay-label">NET PAY : </span>
+                        <span class="net-pay-words" id="payslip-words-val">Forty Thousand Only</span>
+                    </div>
+                    <div class="net-pay-value" id="payslip-net-val">₹ 40,000.00</div>
+                </div>
+
+                <!-- Bank Details Block -->
+                <div class="bank-details">
+                    <div class="bank-title">Bank Transfer Details</div>
+                    <div class="bank-grid">
+                        <div>
+                            <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Bank Name</span>
+                            <span class="info-value" style="font-weight:600;">IDBI Bank</span>
+                        </div>
+                        <div>
+                            <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Account Name</span>
+                            <span class="info-value" style="font-weight:600;">Shah Stavan Purveshbhai</span>
+                        </div>
+                        <div>
+                            <span class="info-label" style="display:block; font-size:0.7rem; margin-bottom:0.15rem;">Account Number</span>
+                            <span class="info-value" style="font-weight:600; font-family: monospace;">220104000205252</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer-note">
+                    This is computer/Software generated document, This doesn't required a signature.
+                </div>
             </div>
         </div>
     </div>
