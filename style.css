@@ -152,7 +152,7 @@ body {
 }
 
 .company-info {
-    text-align: right;
+    text-align: left;
     font-size: 0.8rem;
     color: var(--text-color);
     max-width: 450px;
