@@ -261,6 +261,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.85rem;
+    table-layout: fixed;
 }
 
 .ledger-table th {
@@ -296,6 +297,7 @@ body {
 .col-ref { width: 20%; }
 .col-head { width: 33%; }
 .col-amount { width: 12%; text-align: right; }
+.col-action { width: 10%; text-align: center; }
 
 .col-amount-val {
     text-align: right;
