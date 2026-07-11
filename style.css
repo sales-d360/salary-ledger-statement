@@ -682,6 +682,10 @@ tfoot {
         display: none !important;
     }
     
+    .col-action {
+        display: none !important;
+    }
+    
     .ledger-sheet {
         box-shadow: none !important;
         border: none !important;
