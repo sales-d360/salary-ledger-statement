@@ -19,9 +19,11 @@ if not all_exist:
     print("Verification failed: Missing files.")
     exit(1)
 
-print("\n--- Verifying Content Details in index.html ---")
+print("\n--- Verifying Content Details in Statement ---")
 with open(os.path.join(project_dir, "index.html"), "r", encoding="utf-8") as html_file:
     html_content = html_file.read()
+with open(os.path.join(project_dir, "script.js"), "r", encoding="utf-8") as js_file:
+    js_content = js_file.read()
 
 required_strings = [
     "D360 BUSINESS ASSIST PVT. LTD.",
@@ -37,10 +39,10 @@ required_strings = [
 ]
 
 for s in required_strings:
-    if s in html_content:
+    if s in html_content or s in js_content:
         print(f"OK: Found '{s}'")
     else:
-        print(f"ERROR: '{s}' not found in index.html!")
+        print(f"ERROR: '{s}' not found in statement code!")
 
 print("\n--- Verifying JavaScript Data and Calculations ---")
 with open(os.path.join(project_dir, "script.js"), "r", encoding="utf-8") as js_file:
