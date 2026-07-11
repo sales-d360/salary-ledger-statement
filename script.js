@@ -57,7 +57,6 @@ const transactions = [
 const tableBody = document.getElementById("ledger-body");
 const totalAmountElement = document.getElementById("total-amount");
 const employeeFilter = document.getElementById("filter-employee");
-const vtypeFilter = document.getElementById("filter-vtype");
 const searchInput = document.getElementById("search-input");
 const startDateInput = document.getElementById("filter-start-date");
 const endDateInput = document.getElementById("filter-end-date");
@@ -280,7 +279,6 @@ function updateEmployeeProfile(empId) {
 // Filter logic
 function applyFilters() {
     const selectedEmp = employeeFilter.value;
-    const vtypeValue = vtypeFilter.value.toLowerCase();
     const searchValue = searchInput.value.toLowerCase().trim();
     const startDateVal = startDateInput.value ? new Date(startDateInput.value) : null;
     const endDateVal = endDateInput.value ? new Date(endDateInput.value) : null;
@@ -288,11 +286,6 @@ function applyFilters() {
     const filtered = transactions.filter(tx => {
         // Filter by Employee ID first
         if (tx.employeeId !== selectedEmp) {
-            return false;
-        }
-
-        // Voucher Type filter
-        if (vtypeValue && tx.vtype.toLowerCase() !== vtypeValue) {
             return false;
         }
 
@@ -327,7 +320,6 @@ function applyFilters() {
 
 // Reset filters
 function resetFilters() {
-    vtypeFilter.value = "";
     searchInput.value = "";
     startDateInput.value = "";
     endDateInput.value = "";
@@ -339,7 +331,6 @@ employeeFilter.addEventListener("change", () => {
     updateEmployeeProfile(employeeFilter.value);
     applyFilters();
 });
-vtypeFilter.addEventListener("change", applyFilters);
 searchInput.addEventListener("input", applyFilters);
 startDateInput.addEventListener("change", applyFilters);
 endDateInput.addEventListener("change", applyFilters);
