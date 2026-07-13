@@ -491,8 +491,9 @@ tfoot {
 
 .payslip-header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
     margin-bottom: 1.5rem;
 }
 
@@ -502,7 +503,7 @@ tfoot {
 }
 
 .company-box {
-    text-align: right;
+    text-align: left;
     max-width: 450px;
 }
 
