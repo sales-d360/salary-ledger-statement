@@ -571,6 +571,20 @@ function numberToWords(num) {
     return (words.trim() + ' Only').replace(/\s+/g, ' ');
 }
 
+// Helper: Get standard base salary for an employee in a given month
+function getBaseSalary(employeeId, salaryMonth) {
+    if (employeeId === "dhruvil") {
+        return 55000.00;
+    }
+    if (employeeId === "stavan") {
+        if (salaryMonth === "April 2025" || salaryMonth === "May 2025") {
+            return 25000.00;
+        }
+        return 40000.00;
+    }
+    return 0.00;
+}
+
 // Controller: View Payslip in Modal
 window.viewPayslip = function(dateStr, amount, salaryMonth) {
     const modal = document.getElementById("payslip-modal");
@@ -585,10 +599,31 @@ window.viewPayslip = function(dateStr, amount, salaryMonth) {
     document.getElementById("payslip-acc-name-val").textContent = emp.accountName;
     document.getElementById("payslip-acc-no-val").textContent = emp.accountNo;
 
+    // Determine base salary and any LOP deductions
+    const baseSalary = getBaseSalary(empId, salaryMonth);
+    const lopDeduction = baseSalary > amount ? baseSalary - amount : 0.00;
+
     // Fill dynamic financial values
     document.getElementById("payslip-date-val").textContent = salaryMonth;
-    document.getElementById("payslip-basic-val").textContent = formatCurrency(amount);
-    document.getElementById("payslip-total-earn-val").textContent = formatCurrency(amount);
+    document.getElementById("payslip-basic-val").textContent = formatCurrency(baseSalary);
+    document.getElementById("payslip-total-earn-val").textContent = formatCurrency(baseSalary);
+    
+    // Deductions updates
+    const deductionLabelEl = document.getElementById("payslip-deduction-label");
+    const deductionValEl = document.getElementById("payslip-deduction-val");
+    const totalDeductionsEl = document.getElementById("payslip-total-deductions-val");
+
+    if (lopDeduction > 0) {
+        deductionLabelEl.textContent = "Loss of Pay (LOP)";
+        deductionValEl.textContent = formatCurrency(lopDeduction);
+        totalDeductionsEl.textContent = formatCurrency(lopDeduction);
+    } else {
+        deductionLabelEl.textContent = "Other Deduction";
+        deductionValEl.textContent = "0.00";
+        totalDeductionsEl.textContent = "0.00";
+    }
+
+    // Net pay is transaction amount
     document.getElementById("payslip-net-val").textContent = `₹ ${formatCurrency(amount)}`;
     document.getElementById("payslip-words-val").textContent = numberToWords(amount);
     
