@@ -92,49 +92,56 @@ function updateLedgerPeriod(data) {
 
     const startDateVal = startDateInput.value;
     const endDateVal = endDateInput.value;
+    let periodHtml = "";
 
     // Case 1: Date filters are active in control panel
     if (startDateVal || endDateVal) {
         if (startDateVal && endDateVal) {
-            periodLabel.innerHTML = `Period: <span>${formatDatepickerString(startDateVal)} to ${formatDatepickerString(endDateVal)}</span>`;
+            periodHtml = `Period: <span>${formatDatepickerString(startDateVal)} to ${formatDatepickerString(endDateVal)}</span>`;
         } else if (startDateVal) {
-            periodLabel.innerHTML = `Period: <span>From ${formatDatepickerString(startDateVal)}</span>`;
+            periodHtml = `Period: <span>From ${formatDatepickerString(startDateVal)}</span>`;
         } else {
-            periodLabel.innerHTML = `Period: <span>Up to ${formatDatepickerString(endDateVal)}</span>`;
+            periodHtml = `Period: <span>Up to ${formatDatepickerString(endDateVal)}</span>`;
         }
-        return;
-    }
-
-    // Case 2: No active date filters (scan visible transactions)
-    if (!data || data.length === 0) {
-        periodLabel.innerHTML = `Financial Year: <span>N.A.</span>`;
-        return;
-    }
-
-    // Convert transaction dates to Date objects to find range
-    const dates = data.map(tx => parseDate(tx.date));
-    const minDate = new Date(Math.min(...dates));
-    const maxDate = new Date(Math.max(...dates));
-
-    // Calculate Indian Financial Year for min/max dates
-    const getFyStartYear = (d) => {
-        return d.getMonth() >= 3 ? d.getFullYear() : d.getFullYear() - 1;
-    };
-
-    const minFyStart = getFyStartYear(minDate);
-    const maxFyStart = getFyStartYear(maxDate);
-
-    if (minFyStart === maxFyStart) {
-        const nextYearShort = (minFyStart + 1) % 100;
-        periodLabel.innerHTML = `Financial Year: <span>${minFyStart}-${nextYearShort}</span>`;
     } else {
-        const formatDate = (d) => {
-            const day = String(d.getDate()).padStart(2, '0');
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const year = d.getFullYear();
-            return `${day}/${month}/${year}`;
-        };
-        periodLabel.innerHTML = `Period: <span>${formatDate(minDate)} to ${formatDate(maxDate)}</span>`;
+        // Case 2: No active date filters (scan visible transactions)
+        if (!data || data.length === 0) {
+            periodHtml = `Financial Year: <span>N.A.</span>`;
+        } else {
+            // Convert transaction dates to Date objects to find range
+            const dates = data.map(tx => parseDate(tx.date));
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+
+            // Calculate Indian Financial Year for min/max dates
+            const getFyStartYear = (d) => {
+                return d.getMonth() >= 3 ? d.getFullYear() : d.getFullYear() - 1;
+            };
+
+            const minFyStart = getFyStartYear(minDate);
+            const maxFyStart = getFyStartYear(maxDate);
+
+            if (minFyStart === maxFyStart) {
+                const nextYearShort = (minFyStart + 1) % 100;
+                periodHtml = `Financial Year: <span>${minFyStart}-${nextYearShort}</span>`;
+            } else {
+                const formatDate = (d) => {
+                    const day = String(d.getDate()).padStart(2, '0');
+                    const month = String(d.getMonth() + 1).padStart(2, '0');
+                    const year = d.getFullYear();
+                    return `${day}/${month}/${year}`;
+                };
+                periodHtml = `Period: <span>${formatDate(minDate)} to ${formatDate(maxDate)}</span>`;
+            }
+        }
+    }
+
+    periodLabel.innerHTML = periodHtml;
+
+    // Also update page 2 period if it exists
+    const periodLabelPage2 = document.getElementById("ledger-period-label-page2");
+    if (periodLabelPage2) {
+        periodLabelPage2.innerHTML = periodHtml;
     }
 }
 
@@ -465,7 +472,7 @@ function renderLedger(data) {
             <!-- Table 2 Header Continuation (Print-only) -->
             <div class="ledger-header-continuation">
                 <div style="font-weight:700; color:var(--primary-color); font-size: 1rem; text-transform: uppercase;">Salary Ledger - ${emp.name} (Continued)</div>
-                <div style="font-size:0.8rem; color:var(--text-muted); font-weight: 600;">Period: FY 2025-26</div>
+                <div id="ledger-period-label-page2" style="font-size:0.8rem; color:var(--text-muted); font-weight: 600;">Period: FY 2025-26</div>
             </div>
             <div class="header-separator print-header-separator" style="height: 2px; margin-bottom: 1.5rem;"></div>
 
